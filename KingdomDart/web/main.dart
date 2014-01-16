@@ -18,10 +18,10 @@ Keyboard keyboard = new Keyboard();
 void main() {
   final CanvasRenderingContext2D context =
       (querySelector("#canvas") as CanvasElement).context2D;
-  context.fillStyle="red";
+  context.fillStyle="blue";
   context.fillRect(0,0, 500, 600);
   ImageLoader.loadImages().then((yolo) {
-    context.drawImage(ImageLoader.images['target.png'], 100, 100);
+    context.drawImage(ImageLoader.images['target.png'], 200, 200);
     window.animationFrame.then(gameLoop);
   });
 
