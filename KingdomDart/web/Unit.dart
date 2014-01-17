@@ -18,7 +18,6 @@ abstract class Unit extends PlayerAsset{
   WayPoint currentMovingToPoint = new WayPoint(0,0);
   
   Unit(int PlayerNumber, int TileX, int TileY) : super(){
-    // TODO Auto-generated constructor stub
     _player = PlayerNumber;
     tileX = TileX;
     tileY = TileY;

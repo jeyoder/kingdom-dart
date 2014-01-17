@@ -30,7 +30,7 @@ TileMap(MapLoader generator) {
   _pathfindingTex = ImageLoader.images["assets/pathfinding-dot.png"];
   _tileset = ImageLoader.images["assets/tileset-1.png"];
 }
-void draw(Frame frame) {
+void draw( frame) {
   int minTileX = max((frame.scrollX - (frame.w / 2 / frame.scale / tileW)), 0);
   int maxTileX = min((frame.scrollX + (frame.w / 2 / frame.scale / tileW) + 1), _mapW - 1);
   int minTileY = max((frame.scrollY - (frame.h / 2 / frame.scale / tileH)), 0);

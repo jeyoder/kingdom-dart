@@ -31,6 +31,7 @@ class InGameState extends AppState {
     _frame.context = context;
     _frame.scrollTo(_mouseZoom);
     _handleInput(delta);
+    _renderMap(_frame);
   }
   _handleInput(num delta) {
     var scrollAmt = delta * _scrollSpeed;
@@ -46,6 +47,9 @@ class InGameState extends AppState {
     if(_keyboard.isKeyDown(KeyCode.D)) {
       _frame.scrollX += scrollAmt;
     }
+    
+    
+    
   }
   _renderMap(Frame frame) {
     _map.draw(frame);

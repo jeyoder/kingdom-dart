@@ -13,18 +13,23 @@ part 'Frame.dart';
 part 'ImageLoader.dart';
 part 'Keyboard.dart';
 part 'MapLoader.dart';
+part 'FileMapGenerator.dart';
 AppState state;
 Keyboard keyboard = new Keyboard();
+int width;
+int height;
+CanvasRenderingContext2D context;
 void main() {
-  final CanvasRenderingContext2D context =
-      (querySelector("#canvas") as CanvasElement).context2D;
+  context = (querySelector("#canvas") as CanvasElement).context2D;
+  width = context.canvas.width;
+  height = context.canvas.height;
   context.fillStyle="blue";
-  context.fillRect(0,0, 500, 600);
+  context.fillRect(0,0, width, height);
   ImageLoader.loadImages().then((yolo) {
     context.drawImage(ImageLoader.images['target.png'], 200, 200);
+    state = new InGameState(keyboard);
     window.animationFrame.then(gameLoop);
   });
-
 }
 
 num lastTime = 0;
@@ -32,7 +37,10 @@ void gameLoop(num time) {
   num delta = time - lastTime;
   lastTime = time;
   
+  context.fillStyle="black";
+  context.fillRect(0,0, width, height);
   
+  state.render(context, delta);
   window.animationFrame.then(gameLoop);
 }
 
