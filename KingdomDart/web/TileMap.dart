@@ -17,8 +17,8 @@ class TileMap {
   ImageElement _pathfindingTex;
   ImageElement _tileset;
 TileMap(MapLoader generator) {
-  _mapW = generator.getWidth();
-  _mapH = generator.getHeight();
+  _mapW = generator.width;
+  _mapH = generator.height;
   _mapData = generator.getData();
  /* mapObjects = std::vector<Unit*> (); //create a vector containing pointers to our units
   mapObjects.push_back(new King(0,50, 50));
@@ -35,7 +35,7 @@ void draw( frame) {
   int maxTileX = min((frame.scrollX + (frame.w / 2 / frame.scale / tileW) + 1), _mapW - 1);
   int minTileY = max((frame.scrollY - (frame.h / 2 / frame.scale / tileH)), 0);
   int maxTileY = min((frame.scrollY + (frame.h / 2 / frame.scale / tileH) + 1), _mapH - 1);
-
+  //Render Tiles
   for (int x = minTileX; x <= maxTileX; x++) {
       for (int y = minTileY; y <= maxTileY; y++) {
         int srcTile = tileAt(x, y);
@@ -48,7 +48,14 @@ void draw( frame) {
         frame.context.drawImageToRect(_tileset, destRect, sourceRect: srcRect);
         /*SDL_RenderCopy(frame.renderer, tileset, &srcRect, &destRect); //draw the tile*/
       }
+  }
+  //Render stuff on tiles
+  for (int x = minTileX; x <= maxTileX; x++) {
+    for (int y = minTileY; y <= maxTileY; y++) {
+      
     }
+  }
+  
 }
 int tileAt(int x, int y) => _mapData[y * _mapW + x];
 
