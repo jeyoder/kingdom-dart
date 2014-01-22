@@ -2,7 +2,7 @@ part of Kingdom;
 class Order {
   List<WayPoint> _waypoints;
   List<WayPoint> get waypoints => new List<WayPoint>.from(_waypoints);
-  bool get completed => _waypoints.size() == 0;
+  bool get completed => _waypoints.length == 0;
   int _turnsTillExecute;
   int get turnsTillExecute => _turnsTillExecute;
   TileMap _map;

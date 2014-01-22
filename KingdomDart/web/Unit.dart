@@ -91,31 +91,31 @@ abstract class Unit extends PlayerAsset{
       //msAlreadyAnimated = 0;
     //}
     //std::cout << "----- \n next closest tile " << currentMoveingToPoint.getX() << ", " << currentMoveingToPoint.getY() << " tiles already movied " << tilesMovedAlready <<"\n";
-    if(currentOrder != NULL && !currentOrder.completed() && tilesMovedAlready < tilesPerTurn){
+    if(currentOrder != null && !currentOrder.completed && tilesMovedAlready < tilesPerTurn){
       msAlreadyAnimated += delta;
-      double workingTime = msAlreadyAnimated;
+      int workingTime = msAlreadyAnimated;
       if(msAlreadyAnimated > timePerTile){
         workingTime = timePerTile;
       }
-      int xFinalOff = (currentMovingToPoint.getX()-tileX != 0) ? (currentMovingToPoint.getX()-tileX).abs()/(currentMovingToPoint.getX()-tileX)*TileMap.tileW : 0;
-      int yFinalOff = (currentMovingToPoint.getY()-tileY != 0) ? (currentMovingToPoint.getY()-tileY).abs()/(currentMovingToPoint.getY()-tileY)*TileMap.tileH : 0;
+      int xFinalOff = (currentMovingToPoint.x-tileX != 0) ? (currentMovingToPoint.x-tileX).abs()/(currentMovingToPoint.x-tileX)*TileMap.tileW : 0;
+      int yFinalOff = (currentMovingToPoint.y-tileY != 0) ? (currentMovingToPoint.y-tileY).abs()/(currentMovingToPoint.y-tileY)*TileMap.tileH : 0;
 
       //std::cout << "t parts " <<abs(currentMoveingToPoint.getY()-tileX) << ", " << (currentMoveingToPoint.getY()-tileY) << ", " << TileMap::tileH;
       //std::cout.flush();
       double movedPercent = workingTime/timePerTile;
-      offsetX = xFinalOff*movedPercent;
-      offsetY = yFinalOff*movedPercent;
+      offsetX = xFinalOff*movedPercent as int;
+      offsetY = yFinalOff*movedPercent as int;
       //std::cout << "offset " <<offsetX << ", " << offsetY <<  " movedPercent " << movedPercent << " wt " << workingTime << " FinalOff " << xFinalOff << ", " << yFinalOff << "\n";
       //std::cout.flush();
       if(msAlreadyAnimated > timePerTile){ // find a new tile
 
         //Done for this time
-        tileX = currentMovingToPoint.getX();
-        tileY = currentMovingToPoint.getY();
+        tileX = currentMovingToPoint.x;
+        tileY = currentMovingToPoint.y;
         offsetX = 0;
         offsetY = 0;
         tilesMovedAlready++;
-        currentMovingToPoint = currentOrder.nextTile(WayPoint(tileX, tileY));
+        currentMovingToPoint = currentOrder.nextTile(new WayPoint(tileX, tileY));
         msAlreadyAnimated = msAlreadyAnimated-timePerTile;
       }
     }
@@ -124,13 +124,13 @@ abstract class Unit extends PlayerAsset{
       msAlreadyAnimated = 0;
       //tilesMovedAlready = 0;
       //tilesMovedAlready++;
-      if(tilesMovedAlready >= tilesPerTurn || currentOrder.completed()){
+      if(tilesMovedAlready >= tilesPerTurn || currentOrder.completed){
         tilesMovedAlready = 0;
-        currentUnitTurnState = Input;
+        currentUnitTurnState = INPUT;
       }
-      if(currentOrder.completed()){
+      if(currentOrder.completed){
         orders.remove(currentOrder);
-        window.console.log("made5 and size is now " +orders.length);
+        print("made5 and size is now $orders.length");
       }
     }
   }
