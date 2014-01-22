@@ -7,6 +7,7 @@ abstract class Unit extends PlayerAsset{
   int offsetX=0,offsetY=0;
   String myImagePlayerSufix;
   String myImagePlayerPrefix;
+  String myImage;
   int tilesPerTurn = 1; //Would likely be called something like "Movement Speed" in game UI
   int timePerTile = 1000; //How many miliseconds it takes to move one tile while animating
   int tilesMovedAlready = 0;
@@ -29,6 +30,7 @@ abstract class Unit extends PlayerAsset{
         myImagePlayerSufix = "Red";
         break;
     }
+    myImage = myImagePlayerPrefix+myImagePlayerSufix+".png";
   }
 
   void draw(Frame frame) {
