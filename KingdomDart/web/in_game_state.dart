@@ -48,7 +48,7 @@ class InGameState extends AppState {
       _frame.scrollX += scrollAmt;
     }
     
-    
+    _frame.scrollTo(_keyboard.mouseWheel);
     
   }
   _renderMap(Frame frame) {
