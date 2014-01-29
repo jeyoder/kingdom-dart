@@ -28,45 +28,45 @@ class Order {
   List<WayPoint> getPath(WayPoint startPos) {
     return aStar(startPos, _waypoints[0]); //TODO: do all waypoints
   }
-  /*List<WayPoint> aStar(WayPoint from, WayPoint to) {
-    std::map<PathfindingNode, PathfindingNode> parent;
-    set<PathfindingNode> closedSet;
-    set<PathfindingNode> openSet;
-    PathfindingNode initialNode = PathfindingNode(from);
+  List<WayPoint> aStar(WayPoint from, WayPoint to) {
+    Map<PathfindingNode, PathfindingNode> parent;
+    Set<PathfindingNode> closedSet;
+    Set<PathfindingNode> openSet;
+    PathfindingNode initialNode = new PathfindingNode(from);
     initialNode.pastScore = 0;
     initialNode.totalScore = initialNode.distanceTo(to);
     initialNode.scored = true;
   //  cout << "Initial Node: " << from.getX() << ", " << from.getY() << endl;
-    openSet.insert(initialNode);
-    vector<PathfindingNode> path;
+    openSet.add(initialNode);
+    List<PathfindingNode> path;
   
-    while(openSet.size() > 0) {
+    while(openSet.length > 0) {
       //find the node with the lowest f score from the open set
-      PathfindingNode current = *openSet.begin();
-      for(set<PathfindingNode>::iterator it = openSet.begin(); it != openSet.end(); ++it) {
-        if((*it).totalScore < current.totalScore) {
-          current = *it;
+      PathfindingNode current = openSet.first;
+      for(PathfindingNode it in openSet) {
+        if(it.totalScore < current.totalScore) {
+          current = it;
         }
       }
       //cout << "Processing node: " << current.waypoint.getX() << "," << current.waypoint.getY() << endl;
-      if(current.waypoint.getX() == to.getX() && current.waypoint.getY() == to.getY()) {
+      if(current.waypoint.x == to.x && current.waypoint.y == to.y) {
       //  cout << "DONE! found node " << to.getX() << "," << to.getY() << ", rebuilding path..." << endl;
-        vector<WayPoint> result;
+        List<WayPoint> result;
         PathfindingNode resultNode = current;
         while(resultNode.waypoint != from) {
-          result.insert(result.begin(), resultNode.waypoint);
+          result.insert(0, resultNode.waypoint);
       //    cout << "<= (" << resultNode.waypoint.getX() << "," << resultNode.waypoint.getY() << ")"  << endl;
-          resultNode = parent.at(resultNode);
+          resultNode = parent[resultNode];
         }
         return result;
       }
       //put that node into the closed set
-      openSet.erase(current);
-      closedSet.insert(current);
+      openSet.remove(current);
+      closedSet.add(current);
   
       //iterate through its neighbors
-      int curX = current.waypoint.getX();
-      int curY = current.waypoint.getY();
+      int curX = current.waypoint.x;
+      int curY = current.waypoint.y;
         for (int dir=0; dir<4; dir++) {
           int x = curX;
           int y = curY;
@@ -74,61 +74,34 @@ class Order {
           else if (dir == 1) x++;
           else if (dir == 2) y--;
           else if (dir == 3) y++;
-          PathfindingNode neighbor(WayPoint(x,y));
-          if (!(x == curX && y == curY) && x >= 0 && x < map->getW() && y >=0 && y < map->getH() && closedSet.find(neighbor) == closedSet.end()
-            && map->isTilePassable(x,y) && map->unitAt(x,y) == nullptr) { //if it's actually a neighbor, and not in the closed set
+          PathfindingNode neighbor = new PathfindingNode.withCordinates(x,y);
+          if (!(x == curX && y == curY) && x >= 0 && x < map.width && y >=0 && y < map.height && !closedSet.contains(neighbor)
+            && map.isTilePassable(x,y) && map.unitAt(x,y) == null) { //if it's actually a neighbor, and not in the closed set
             //cout << "  Processing Neighbor: " << x << "," << y ;
             int possiblePastScore = current.pastScore + 1;
             int possibleTotalScore = possiblePastScore + neighbor.distanceTo(to); //find its probable scores
             //cout << ": probPast = " << possiblePastScore << " propTot = " << possibleTotalScore;
-            if(openSet.find(neighbor) == openSet.end() || possibleTotalScore < neighbor.totalScore) { // if the neighbor's already in the open set and has a lower score, we don't care about it
+            if(!openSet.contains(neighbor) || possibleTotalScore < neighbor.totalScore) { // if the neighbor's already in the open set and has a lower score, we don't care about it
             //  cout << " it's new! key " << neighbor.waypoint.getX() << "," << neighbor.waypoint.getY() << " val" << curX << "," << curY;
               //parent.insert(std::map<PathfindingNode, PathfindingNode>::value_type(neighbor, current));
               parent[neighbor] = current;
   
-              parent.at(neighbor);
+              //parent.at(neighbor); ?????
   
               neighbor.pastScore = possiblePastScore;
               neighbor.totalScore = possibleTotalScore;
-              if(openSet.find(neighbor) == openSet.end()) {
+              if(!openSet.contains(neighbor)) {
             //    cout << " ..insert to openSet";
-                openSet.insert(neighbor);
+                openSet.add(neighbor);
               }
             }
       //      cout << endl;
           }
         }
     }
-    vector<WayPoint> bad;
+    List<WayPoint> bad;
     return bad;
-  }*/
-}
-
-class PathfindingNode {
-  WayPoint _waypoint;
-  WayPoint get waypoint => _waypoint;
-  bool scored = false;
-  int totalScore = -1;
-  int pastScore = -1;
-
-  PathfindingNode(this._waypoint);
-  
-  int distanceTo(WayPoint pt) {
-    return (_waypoint.x - pt.x).abs() + (_waypoint.y - pt.y).abs();
-  }
- bool operator==(PathfindingNode comp) {
-   return (_waypoint.x == comp.waypoint.x && _waypoint.y == comp.waypoint.y);
- }
-  bool operator<(PathfindingNode comp) { //for binary searching
-    if(_waypoint.y < comp.waypoint.y) return true;
-    else if (_waypoint.y > comp.waypoint.y) return false;
-    else {
-      if (_waypoint.x < comp.waypoint.x) return true;
-      else return false;
-    }
-  }
-  
-  bool operator>(PathfindingNode comp) {
-    return !(this < comp || this == comp);
   }
 }
+
+

@@ -15,6 +15,7 @@ part 'Keyboard.dart';
 part 'MapLoader.dart';
 part 'FileMapGenerator.dart';
 part 'King.dart';
+part 'PathfindingNode.dart';
 AppState state;
 Keyboard keyboard = new Keyboard();
 int width;
