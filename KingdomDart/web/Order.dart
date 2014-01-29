@@ -32,7 +32,7 @@ class Order {
     Map<PathfindingNode, PathfindingNode> parent;
     Set<PathfindingNode> closedSet;
     Set<PathfindingNode> openSet;
-    PathfindingNode initialNode = new PathfindingNode(from);
+    PathfindingNode initialNode = new PathfindingNode.withCordinates(from.x, from.y);
     initialNode.pastScore = 0;
     initialNode.totalScore = initialNode.distanceTo(to);
     initialNode.scored = true;
@@ -75,8 +75,8 @@ class Order {
           else if (dir == 2) y--;
           else if (dir == 3) y++;
           PathfindingNode neighbor = new PathfindingNode.withCordinates(x,y);
-          if (!(x == curX && y == curY) && x >= 0 && x < map.width && y >=0 && y < map.height && !closedSet.contains(neighbor)
-            && map.isTilePassable(x,y) && map.unitAt(x,y) == null) { //if it's actually a neighbor, and not in the closed set
+          if (!(x == curX && y == curY) && x >= 0 && x < _map.mapW && y >=0 && y < _map.mapH && !closedSet.contains(neighbor)
+            && _map.isTilePassable(x,y) && _map.unitAt(x,y) == null) { //if it's actually a neighbor, and not in the closed set
             //cout << "  Processing Neighbor: " << x << "," << y ;
             int possiblePastScore = current.pastScore + 1;
             int possibleTotalScore = possiblePastScore + neighbor.distanceTo(to); //find its probable scores
