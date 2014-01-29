@@ -29,7 +29,10 @@ void main() {
   context.fillRect(0,0, width, height);
   ImageLoader.loadImages().then((yolo) {
     context.drawImage(ImageLoader.images['target.png'], 200, 200);
-    state = new InGameState(keyboard);
+  }).then((onValue) {
+    return HttpRequest.getString("assets/tilemap.txt");
+  }).then((mapData) {
+    state = new InGameState(keyboard, new FileMapGenerator(mapData));
     window.animationFrame.then(gameLoop);
   });
 }

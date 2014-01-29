@@ -7,10 +7,10 @@ class TileMap {
   int get mapW => _mapW;
   int get mapH => _mapH;
   List<int> _mapData;
-  List<Unit> _mapObjects;
-  List<Unit> get mapObject => new List<Unit>.from(_mapObjects);
-  static const int tileW = 32;
-  static const int tileH = 32;
+  List<Unit> _mapObjects = new List<Unit>();
+  List<Unit> get mapObjects => new List<Unit>.from(_mapObjects);
+  static const int tileW = 64;
+  static const int tileH = 64;
   ImageElement _selectedTex;
   ImageElement _waypointTex;
   ImageElement _waypointChooserTex;
@@ -20,10 +20,6 @@ TileMap(MapLoader generator) {
   _mapW = generator.width;
   _mapH = generator.height;
   _mapData = generator.getData();
- /* mapObjects = std::vector<Unit*> (); //create a vector containing pointers to our units
-  mapObjects.push_back(new King(0,50, 50));
-  mapObjects.push_back(new Pawn(0,51, 49));
-  mapObjects.push_back(new Pawn(0,49, 49)); */
   _selectedTex = ImageLoader.images["selected.png"];
   _waypointTex = ImageLoader.images["target.png"];
   _waypointChooserTex = ImageLoader.images["target_chooser.png"];
@@ -31,20 +27,19 @@ TileMap(MapLoader generator) {
   _tileset = ImageLoader.images["tileset-1.png"];
 }
 void draw( frame) {
-  int minTileX = max((frame.scrollX - (frame.w / 2 / frame.scale / tileW)), 0);
-  int maxTileX = min((frame.scrollX + (frame.w / 2 / frame.scale / tileW) + 1), _mapW - 1);
-  int minTileY = max((frame.scrollY - (frame.h / 2 / frame.scale / tileH)), 0);
-  int maxTileY = min((frame.scrollY + (frame.h / 2 / frame.scale / tileH) + 1), _mapH - 1);
-  //Render Tiles
+  int minTileX = max((frame.scrollX - (frame.w / 2 / frame.scale / tileW)), 0).toInt();
+  int maxTileX = min((frame.scrollX + (frame.w / 2 / frame.scale / tileW) + 1), _mapW - 1).toInt();
+  int minTileY = max((frame.scrollY - (frame.h / 2 / frame.scale / tileH)), 0).toInt();
+  int maxTileY = min((frame.scrollY + (frame.h / 2 / frame.scale / tileH) + 1), _mapH - 1).toInt();
   for (int x = minTileX; x <= maxTileX; x++) {
       for (int y = minTileY; y <= maxTileY; y++) {
         int srcTile = tileAt(x, y);
         var srcRect = new Rectangle<int>((srcTile - 1) * tileW, 0, tileW, tileH);
         var destRect= new Rectangle<int>(
-        ((x - frame.scrollX) * tileW * frame.scale) + (frame.w / 2) as int,
-        ((y - frame.scrollY) * tileH * frame.scale) + (frame.h / 2) as int,
-        tileW * frame.scale as int,
-        destRect.h = tileH * frame.scale as int);
+        (((x - frame.scrollX) * tileW * frame.scale) + (frame.w / 2)).toInt(),
+        (((y - frame.scrollY) * tileH * frame.scale) + (frame.h / 2)).toInt(),
+        (tileW * frame.scale).toInt(),
+        (tileH * frame.scale).toInt());
         frame.context.drawImageToRect(_tileset, destRect, sourceRect: srcRect);
         /*SDL_RenderCopy(frame.renderer, tileset, &srcRect, &destRect); //draw the tile*/
       }
@@ -55,10 +50,10 @@ void draw( frame) {
       //int srcTile = tileAt(x, y);
       //var srcRect = new Rectangle<int>((srcTile - 1) * tileW, 0, tileW, tileH);
       Rectangle destRect= new Rectangle<int>(
-          ((x - frame.scrollX) * tileW * frame.scale) + (frame.w / 2) as int,
-          ((y - frame.scrollY) * tileH * frame.scale) + (frame.h / 2) as int,
-          tileW * frame.scale as int,
-          tileH * frame.scale as int);
+          (((x - frame.scrollX) * tileW * frame.scale) + (frame.w / 2)).toInt(),
+          (((y - frame.scrollY) * tileH * frame.scale) + (frame.h / 2)).toInt(),
+          (tileW * frame.scale).toInt(),
+          (tileH * frame.scale).toInt());
       //
       /*for(vector<Unit*>::iterator it = selectedUnits.begin(); it != selectedUnits.end(); ++it) {
         Unit* unit = *it;
@@ -82,8 +77,8 @@ void draw( frame) {
       Unit drawingUnit = unitAt(x, y);
       if(drawingUnit != null){
         Rectangle animatedDestRect = new Rectangle<int>(
-          animatedDestRect.left + drawingUnit.offsetX * frame.scale as int,
-          animatedDestRect.top + drawingUnit.offsetY * frame.scale as int,
+          destRect.left + drawingUnit.offsetX * frame.scale as int,
+          destRect.top + drawingUnit.offsetY * frame.scale as int,
           tileW * frame.scale as int,
           tileH * frame.scale as int);
         frame.context.drawImageToRect(ImageLoader.images[drawingUnit.myImage], destRect);
@@ -98,6 +93,7 @@ int tileAt(int x, int y) => _mapData[y * _mapW + x];
 int tileAtPoint(WayPoint pt) => tileAt(pt.x, pt.y);
 
 Unit unitAt(int x, int y) {
+ if(_mapObjects == null) return null;
  for(Unit unit in _mapObjects) {
     if(unit.tileX == x && unit.tileY == y) {
       return unit;

@@ -20,8 +20,8 @@ class InGameState extends AppState {
   Frame _frame = new Frame(10, 10, 1.0);
   Keyboard _keyboard;
   
-  InGameState(this._keyboard) {
-    
+  InGameState(this._keyboard, MapLoader loader) {
+    _map = new TileMap(loader);
   }
   
   void nextTurn() {
@@ -48,7 +48,7 @@ class InGameState extends AppState {
       _frame.scrollX += scrollAmt;
     }
     
-    
+    _frame.scrollTo(_keyboard.mouseWheel);
     
   }
   _renderMap(Frame frame) {
