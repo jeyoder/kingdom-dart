@@ -26,6 +26,9 @@ TileMap(MapLoader generator) {
   _pathfindingTex = ImageLoader.images["pathfinding-dot.png"];
   _tileset = ImageLoader.images["tileset-1.png"];
 }
+void add(Unit obj) {
+  _mapObjects.add(obj);
+}
 void draw( frame) {
   int minTileX = max((frame.scrollX - (frame.w / 2 / frame.scale / tileW)), 0).toInt();
   int maxTileX = min((frame.scrollX + (frame.w / 2 / frame.scale / tileW) + 1), _mapW - 1).toInt();
@@ -77,10 +80,10 @@ void draw( frame) {
       Unit drawingUnit = unitAt(x, y);
       if(drawingUnit != null){
         Rectangle animatedDestRect = new Rectangle<int>(
-          destRect.left + drawingUnit.offsetX * frame.scale as int,
-          destRect.top + drawingUnit.offsetY * frame.scale as int,
-          tileW * frame.scale as int,
-          tileH * frame.scale as int);
+          (destRect.left + drawingUnit.offsetX * frame.scale).toInt(),
+          (destRect.top + drawingUnit.offsetY * frame.scale).toInt(),
+          (tileW * frame.scale).toInt(),
+          (tileH * frame.scale).toInt());
         frame.context.drawImageToRect(ImageLoader.images[drawingUnit.myImage], destRect);
       }
       //

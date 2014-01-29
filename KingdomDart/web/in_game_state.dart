@@ -7,7 +7,6 @@ class InGameState extends AppState {
   static const double _scrollSpeed = 0.01;
   int _turnState = INPUT;
   int get turnState => turnState;
-  
   TileMap _map;
   int _turnNumber = 0;
   double _timeSinceLastTurn = 0.0;
@@ -19,9 +18,10 @@ class InGameState extends AppState {
   int _mouseZoom = 0 ;// mouse zoom (starts at 0, number of clicks of the scroll wheel)
   Frame _frame = new Frame(10, 10, 1.0);
   Keyboard _keyboard;
-  
+  King fred = new King(0,0,0);
   InGameState(this._keyboard, MapLoader loader) {
     _map = new TileMap(loader);
+    _map.add(fred);
   }
   
   void nextTurn() {
@@ -34,6 +34,9 @@ class InGameState extends AppState {
     _renderMap(_frame);
   }
   _handleInput(num delta) {
+    if(_keyboard.clickHappened) {
+      
+    }
     var scrollAmt = delta * _scrollSpeed;
     if(_keyboard.isKeyDown(KeyCode.W)) {
       _frame.scrollY -= scrollAmt;
@@ -49,7 +52,6 @@ class InGameState extends AppState {
     }
     
     _frame.scrollTo(_keyboard.mouseWheel);
-    
   }
   _renderMap(Frame frame) {
     _map.draw(frame);

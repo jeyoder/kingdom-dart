@@ -7,7 +7,12 @@ class ImageLoader {
                           'target.png', 
                           'target_chooser.png',
                           'pathfinding-dot.png',
-                          'tileset-1.png'];
+                          'tileset-1.png',
+                          'PawnGreen.png',
+                          'PawnOrigional.png',
+                          'King.png',
+                          'KingGreen.png',
+                          'KingRed.png'];
   static Future loadImages() {
     var futures = new List();
     for(String filename in filenames) {
