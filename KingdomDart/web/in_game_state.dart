@@ -47,6 +47,21 @@ class InGameState extends AppState {
       
       _keyboard.resetClick();
     }
+    
+    if(_keyboard.rClickHappened) {
+      window.console.log(_frame.scale);
+      window.console.log("screen loc ${_keyboard.clickX}, ${_keyboard.clickY}");
+      var clickX = (_frame.scrollX * TileMap.tileW * _frame.scale) - (_frame.w / 2) + _keyboard.clickX; //tile location in pixels
+      var clickY = (_frame.scrollY * TileMap.tileH * _frame.scale) - (_frame.h / 2) + _keyboard.clickY;
+      window.console.log("clickPix $clickX, $clickY");
+      var clickedTileX = clickX / (TileMap.tileW * _frame.scale); //convert to tiles
+      var clickedTileY = clickY / (TileMap.tileH * _frame.scale);
+      if(selectedUnit != null) {
+        selectedUnit.giveOrder(new Order([new WayPoint(clickedTileX.toInt(), clickedTileY.toInt())],1,_map));
+      }
+      
+      _keyboard.resetRClick();
+    }
     var scrollAmt = delta * _scrollSpeed;
     if(_keyboard.isKeyDown(KeyCode.W)) {
       _frame.scrollY -= scrollAmt;
