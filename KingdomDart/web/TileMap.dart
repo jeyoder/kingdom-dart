@@ -85,7 +85,7 @@ void draw( frame, Unit selectedUnit) {
           (tileW * frame.scale).toInt(),
           (tileH * frame.scale).toInt());
         if(drawingUnit == selectedUnit) {
-          window.console.log("su");
+    //      window.console.log("su");
           frame.context.drawImageToRect(ImageLoader.images['selected.png'], destRect);
         }
         frame.context.drawImageToRect(ImageLoader.images[drawingUnit.myImage], destRect);
