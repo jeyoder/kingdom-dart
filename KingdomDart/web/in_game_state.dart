@@ -23,6 +23,8 @@ class InGameState extends AppState {
   InGameState(this._keyboard, MapLoader loader) {
     _map = new TileMap(loader);
     _map.add(fred);
+    /*List<WayPoint> fredsOrders = [new WayPoint(3,3)];
+    fred.giveOrder(new Order(fredsOrders, 1, _map));*/
   }
   
   void nextTurn() {
