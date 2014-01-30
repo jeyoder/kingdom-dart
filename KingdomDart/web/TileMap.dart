@@ -29,7 +29,7 @@ TileMap(MapLoader generator) {
 void add(Unit obj) {
   _mapObjects.add(obj);
 }
-void draw( frame) {
+void draw( frame, Unit selectedUnit) {
   int minTileX = max((frame.scrollX - (frame.w / 2 / frame.scale / tileW)), 0).toInt();
   int maxTileX = min((frame.scrollX + (frame.w / 2 / frame.scale / tileW) + 1), _mapW - 1).toInt();
   int minTileY = max((frame.scrollY - (frame.h / 2 / frame.scale / tileH)), 0).toInt();
@@ -84,6 +84,10 @@ void draw( frame) {
           (destRect.top + drawingUnit.offsetY * frame.scale).toInt(),
           (tileW * frame.scale).toInt(),
           (tileH * frame.scale).toInt());
+        if(drawingUnit == selectedUnit) {
+          window.console.log("su");
+          frame.context.drawImageToRect(ImageLoader.images['selected.png'], destRect);
+        }
         frame.context.drawImageToRect(ImageLoader.images[drawingUnit.myImage], destRect);
       }
       //

@@ -8,6 +8,7 @@ class Frame {
   num get h => context.canvas.height;
   Frame(this.scrollX, this.scrollY, this.scale);
   void scrollTo(num zoomLevel) {
+    window.console.log("scaling to $zoomLevel");
     scale = pow(2, (zoomLevel + 1) * 0.15); //scale the mouse for a nice linear zoom
     scale = (scale * TileMap.tileW).floor() / TileMap.tileH; //round scale to the nearest tile width multiple. prevents tile gaps.
   }

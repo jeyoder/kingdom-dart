@@ -19,6 +19,7 @@ class InGameState extends AppState {
   Frame _frame = new Frame(10, 10, 1.0);
   Keyboard _keyboard;
   King fred = new King(0,0,0);
+  Unit selectedUnit = null;
   InGameState(this._keyboard, MapLoader loader) {
     _map = new TileMap(loader);
     _map.add(fred);
@@ -29,13 +30,22 @@ class InGameState extends AppState {
   }
   bool render(CanvasRenderingContext2D context, num delta) {
     _frame.context = context;
-    _frame.scrollTo(_mouseZoom);
     _handleInput(delta);
     _renderMap(_frame);
   }
   _handleInput(num delta) {
     if(_keyboard.clickHappened) {
+      window.console.log(_frame.scale);
+      window.console.log("screen loc ${_keyboard.clickX}, ${_keyboard.clickY}");
+      var clickX = (_frame.scrollX * TileMap.tileW * _frame.scale) - (_frame.w / 2) + _keyboard.clickX; //tile location in pixels
+      var clickY = (_frame.scrollY * TileMap.tileH * _frame.scale) - (_frame.h / 2) + _keyboard.clickY;
+      window.console.log("clickPix $clickX, $clickY");
+      var clickedTileX = clickX / (TileMap.tileW * _frame.scale); //convert to tiles
+      var clickedTileY = clickY / (TileMap.tileH * _frame.scale);
+      window.console.log("click on $clickedTileX, $clickedTileY");
+      selectedUnit = _map.unitAt(clickedTileX.toInt(), clickedTileY.toInt());
       
+      _keyboard.resetClick();
     }
     var scrollAmt = delta * _scrollSpeed;
     if(_keyboard.isKeyDown(KeyCode.W)) {
@@ -54,7 +64,7 @@ class InGameState extends AppState {
     _frame.scrollTo(_keyboard.mouseWheel);
   }
   _renderMap(Frame frame) {
-    _map.draw(frame);
+    _map.draw(frame, selectedUnit);
   }
   _renderUnits(Frame frame) {
     

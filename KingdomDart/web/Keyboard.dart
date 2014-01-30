@@ -7,8 +7,8 @@ class Keyboard {
   int _clickY = -1;
   
   bool get clickHappened => _clickHappened;
-  int get clickX => clickX;
-  int get clickY => clickY;
+  int get clickX => _clickX;
+  int get clickY => _clickY;
   void resetClick() {
     _clickHappened = false;
   }
@@ -25,8 +25,8 @@ class Keyboard {
     context.canvas.onClick.listen((MouseEvent e) {
       if(e.button == 0) {
         _clickHappened = true;
-        _clickX = e.client.x;
-        _clickY = e.client.y;
+        _clickX = e.offset.x;
+        _clickY = e.offset.y;
       }
     });
   }
