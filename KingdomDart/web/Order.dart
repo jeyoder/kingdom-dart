@@ -29,9 +29,9 @@ class Order {
     return aStar(startPos, _waypoints[0]); //TODO: do all waypoints
   }
   List<WayPoint> aStar(WayPoint from, WayPoint to) {
-    Map<PathfindingNode, PathfindingNode> parent;
-    Set<PathfindingNode> closedSet;
-    Set<PathfindingNode> openSet;
+    Map<PathfindingNode, PathfindingNode> parent = new Map<PathfindingNode, PathfindingNode> ();
+    Set<PathfindingNode> closedSet = new Set<PathfindingNode> ();
+    Set<PathfindingNode> openSet = new Set<PathfindingNode> ();
     PathfindingNode initialNode = new PathfindingNode.withCordinates(from.x, from.y);
     initialNode.pastScore = 0;
     initialNode.totalScore = initialNode.distanceTo(to);
@@ -51,7 +51,7 @@ class Order {
       //cout << "Processing node: " << current.waypoint.getX() << "," << current.waypoint.getY() << endl;
       if(current.waypoint.x == to.x && current.waypoint.y == to.y) {
       //  cout << "DONE! found node " << to.getX() << "," << to.getY() << ", rebuilding path..." << endl;
-        List<WayPoint> result;
+        List<WayPoint> result = new List<WayPoint>();
         PathfindingNode resultNode = current;
         while(resultNode.waypoint != from) {
           result.insert(0, resultNode.waypoint);
@@ -90,7 +90,7 @@ class Order {
   
               neighbor.pastScore = possiblePastScore;
               neighbor.totalScore = possibleTotalScore;
-              if(!openSet.contains(neighbor)) {
+              if(!openSet.contains(neighbor) && neighbor.totalScore <= 8) {
             //    cout << " ..insert to openSet";
                 openSet.add(neighbor);
               }

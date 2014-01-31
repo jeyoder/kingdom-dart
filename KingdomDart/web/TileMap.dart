@@ -29,7 +29,7 @@ TileMap(MapLoader generator) {
 void add(Unit obj) {
   _mapObjects.add(obj);
 }
-void draw( frame, Unit selectedUnit) {
+void draw(frame, Unit selectedUnit, List<WayPoint> path) {
   int minTileX = max((frame.scrollX - (frame.w / 2 / frame.scale / tileW)), 0).toInt();
   int maxTileX = min((frame.scrollX + (frame.w / 2 / frame.scale / tileW) + 1), _mapW - 1).toInt();
   int minTileY = max((frame.scrollY - (frame.h / 2 / frame.scale / tileH)), 0).toInt();
@@ -93,7 +93,19 @@ void draw( frame, Unit selectedUnit) {
       //
     }
   }
-  
+  if(path != null) {
+    window.console.log("drawing path");
+    for(WayPoint wp in path) {
+      if(wp.x >= minTileX && wp.x <= maxTileX && wp.y >= minTileY && wp.y <= maxTileY) {
+        Rectangle destRect= new Rectangle<int>(
+            (((wp.x - frame.scrollX) * tileW * frame.scale) + (frame.w / 2)).toInt(),
+            (((wp.y - frame.scrollY) * tileH * frame.scale) + (frame.h / 2)).toInt(),
+            (tileW * frame.scale).toInt(),
+            (tileH * frame.scale).toInt());
+        frame.context.drawImageToRect(ImageLoader.images['pathfinding-dot.png'], destRect);
+      }
+    }
+  }
 }
 int tileAt(int x, int y) => _mapData[y * _mapW + x];
 

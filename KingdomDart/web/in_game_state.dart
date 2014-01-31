@@ -34,6 +34,16 @@ class InGameState extends AppState {
     _renderMap(_frame);
   }
   _handleInput(num delta) {
+    if(_keyboard.rDown && selectedUnit != null) {
+      var clickX = (_frame.scrollX * TileMap.tileW * _frame.scale) - (_frame.w / 2) + _keyboard.x; //tile location in pixels
+      var clickY = (_frame.scrollY * TileMap.tileH * _frame.scale) - (_frame.h / 2) + _keyboard.y;
+      var clickedTileX = clickX / (TileMap.tileW * _frame.scale); //convert to tiles
+      var clickedTileY = clickY / (TileMap.tileH * _frame.scale);
+      var o = new Order([new WayPoint(clickedTileX.toInt(), clickedTileY.toInt())], 0, _map);
+      _tempOrderPath = o.getPath(new WayPoint(selectedUnit.tileX, selectedUnit.tileY));
+    } else {
+      _tempOrderPath = null;
+    }
     if(_keyboard.clickHappened) {
       window.console.log(_frame.scale);
       window.console.log("screen loc ${_keyboard.clickX}, ${_keyboard.clickY}");
@@ -79,7 +89,7 @@ class InGameState extends AppState {
     _frame.scrollTo(_keyboard.mouseWheel);
   }
   _renderMap(Frame frame) {
-    _map.draw(frame, selectedUnit);
+    _map.draw(frame, selectedUnit, _tempOrderPath);
   }
   _renderUnits(Frame frame) {
     
