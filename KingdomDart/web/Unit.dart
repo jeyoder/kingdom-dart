@@ -12,8 +12,9 @@ abstract class Unit extends PlayerAsset{
   int timePerTile = 1000; //How many miliseconds it takes to move one tile while animating
   int tilesMovedAlready = 0;
   int msAlreadyAnimated = 0;
- // SDL_Texture* texture;
-  int currentUnitTurnState = INPUT;
+  int _currentUnitTurnState = INPUT;
+  int get currentUnitTurnState => _currentUnitTurnState;
+ // SDL_Texture* texture;urnState 
   List<Order> orders = new List<Order>();
   Order currentOrder;
   WayPoint currentMovingToPoint = new WayPoint(0,0);
@@ -67,7 +68,7 @@ abstract class Unit extends PlayerAsset{
         if(orders[i].turnsTillExecute <= 0){
           orders[i].activated = true;
           currentOrder = orders[i];
-          currentUnitTurnState = ANIMATING;
+          _currentUnitTurnState = ANIMATING;
           currentMovingToPoint = currentOrder.nextTile(getPosition());
           //delete everything before it
           for(int ii = 0; ii < i; ii++){
@@ -125,7 +126,7 @@ abstract class Unit extends PlayerAsset{
       //tilesMovedAlready++;
       if(tilesMovedAlready >= tilesPerTurn || currentOrder.completed){
         tilesMovedAlready = 0;
-        currentUnitTurnState = INPUT;
+        _currentUnitTurnState = INPUT;
       }
       if(currentOrder.completed){
         orders.remove(currentOrder);
