@@ -7,7 +7,7 @@ class Order {
   int get turnsTillExecute => _turnsTillExecute;
   TileMap _map;
   bool activated = false;
-  Order(this._waypoints, _TurnsTillExecute, this._map);
+  Order(this._waypoints, this._turnsTillExecute, this._map);
   void decrementTurns(){
     _turnsTillExecute--;
   }
