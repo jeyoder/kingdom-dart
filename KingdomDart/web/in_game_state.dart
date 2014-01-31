@@ -28,8 +28,8 @@ class InGameState extends AppState {
     _map = new TileMap(loader);
     _map.add(fred);
     _timeSinceLastTurn = 0.0;
-    /*List<WayPoint> fredsOrders = [new WayPoint(3,3)];
-    fred.giveOrder(new Order(fredsOrders, 1, _map));*/
+    List<WayPoint> fredsOrders = [new WayPoint(3,3)];
+    fred.giveOrder(new Order(fredsOrders, 1, _map));
   }
   
   void nextTurn() {
